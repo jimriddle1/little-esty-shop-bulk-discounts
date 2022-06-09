@@ -13,12 +13,13 @@ RSpec.describe 'Merchant Invoice Show Page' do
             @invoice1 = @customer1.invoices.create!(status: 0)
             @invoice2 = @customer1.invoices.create!(status: 0)
             InvoiceItem.create!(item_id: @item1.id, invoice_id: @invoice1.id, quantity: 5, unit_price: 1000, status: 0)
+            # InvoiceItem.create!(item_id: @item1.id, invoice_id: @invoice2.id, quantity: 5, unit_price: 2000, status: 0)
             InvoiceItem.create!(item_id: @item2.id, invoice_id: @invoice1.id, quantity: 10, unit_price: 1300, status: 1)
             InvoiceItem.create!(item_id: @item3.id, invoice_id: @invoice1.id, quantity: 20, unit_price: 2000, status: 1)
             InvoiceItem.create!(item_id: @item4.id, invoice_id: @invoice1.id, quantity: 5, unit_price: 1000, status: 2)
             InvoiceItem.create!(item_id: @item4.id, invoice_id: @invoice2.id, quantity: 5, unit_price: 1000, status: 2)
-            @discount1 = @merch1.discounts.create!(bulk_discount: 0.3, item_threshold: 15)
-            @discount2 = @merch1.discounts.create!(bulk_discount: 0.2, item_threshold: 10)
+            @discount1 = @merch1.discounts.create!(bulk_discount: 0.2, item_threshold: 10)
+            @discount2 = @merch1.discounts.create!(bulk_discount: 0.3, item_threshold: 15)
         end
 
         it "displays all items on invoice including name, quantity, price and status" do
@@ -95,7 +96,7 @@ RSpec.describe 'Merchant Invoice Show Page' do
           end
 
           click_link("Discount for #{@item3.name}")
-          expect(current_path).to eq("/merchants/#{@merch1.id}/discounts/#{@discount1.id}")
+          expect(current_path).to eq("/merchants/#{@merch1.id}/discounts/#{@discount2.id}")
 
         end
 
