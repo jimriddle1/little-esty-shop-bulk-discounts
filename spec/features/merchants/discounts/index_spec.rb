@@ -126,4 +126,37 @@ RSpec.describe 'merchants discounts' do
     expect(page).to_not have_content('Percentage Discount: 20.0%')
     expect(page).to_not have_content('Item Threshold: 10')
   end
+
+  it 'can update a bulk discount' do
+    # As a merchant
+    # When I visit my bulk discount show page
+    # Then I see a link to edit the bulk discount
+    # When I click this link
+    # Then I am taken to a new page with a form to edit the discount
+    # And I see that the discounts current attributes are pre-poluated in the form
+    # When I change any/all of the information and click submit
+    # Then I am redirected to the bulk discount's show page
+    # And I see that the discount's attributes have been updated
+
+    visit "/merchants/#{@merch1.id}/discounts/#{@discount1.id}"
+
+
+    click_link "Edit Discount"
+    expect(current_path).to eq("/merchants/#{@merch1.id}/discounts/#{@discount1.id}/edit")
+    # save_and_open_page
+    #
+    # expect(page).to have_content('0.2')
+    # expect(page).to have_content('10')
+
+    fill_in :bulk_discount, with: 0.4
+    fill_in :item_threshold, with: 30
+    click_button 'Update Discount'
+    expect(current_path).to eq("/merchants/#{@merch1.id}/discounts/#{@discount1.id}")
+
+    expect(page).to have_content('Percentage Discount: 40.0%')
+    expect(page).to have_content('Item Threshold: 30')
+
+
+
+  end
 end
