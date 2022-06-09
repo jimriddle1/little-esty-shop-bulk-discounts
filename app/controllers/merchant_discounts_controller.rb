@@ -8,6 +8,18 @@ class MerchantDiscountsController < ApplicationController
     @merchant = Merchant.find(params[:id])
     @discount = Discount.find(params[:discount_id])
   end
+
+  def new
+    @merchant = Merchant.find(params[:id])
+    # binding.pry
+  end
+
+  def create
+    merchant = Merchant.find(params[:id])
+    merchant.discounts.create!(discount_params)
+    # binding.pry
+    redirect_to "/merchants/#{merchant.id}/discounts"
+  end
   #
   # def update
   #   # require "pry"; binding.pry
@@ -19,5 +31,11 @@ class MerchantDiscountsController < ApplicationController
   #
   #   # require "pry"; binding.pry
   # end
+
+  private
+
+  def discount_params
+    params.permit(:bulk_discount, :item_threshold)
+  end
 
 end
