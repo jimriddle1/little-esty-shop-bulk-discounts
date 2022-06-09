@@ -168,6 +168,14 @@ RSpec.describe 'merchants dashboard' do
     expect(page).to_not have_content("#{@cust7.first_name} #{@cust7.last_name}")
   end
 
+  it 'gives me a link to view the discounts index' do
+    # binding.pry
+    "/merchants/#{@merch1.id}/dashboard"
+
+    click_link("View all discounts")
+    expect(current_path).to eq("/merchants/#{@merch1.id}/discounts")
+  end
+
   # it 'displays repo name' do
   #   visit "/merchants/#{@merch1.id}/dashboard"
   #   expect(page).to have_content('little-esty-shop')
