@@ -21,6 +21,17 @@ RSpec.describe 'merchants dashboard' do
     InvoiceItem.create!(item_id: @item3.id, invoice_id: @invoice4.id, quantity: 5, unit_price: 1000, status: 2,
                         created_at: '2022-06-03 21:08:15 UTC')
   end
+
+
+  it 'gives me a link to view the discounts index' do
+    # binding.pry
+    visit "/merchants/#{@merch1.id}/dashboard"
+    # save_and_open_page
+
+    click_link("View all discounts")
+    expect(current_path).to eq("/merchants/#{@merch1.id}/discounts")
+  end
+
   it 'shows the name of the merchant' do
     visit "/merchants/#{@merch1.id}/dashboard"
 
@@ -138,6 +149,7 @@ RSpec.describe 'merchants dashboard' do
     # top 5 should be Hank Williams, then Bryan, Jim, Mark and Walter.  Sammy and Barry should not appear on this page
 
     visit "/merchants/#{@merch1.id}/dashboard"
+    # save_and_open_page
 
     within "#customer-#{@cust5.id}" do
       expect(page).to have_content("#{@cust5.first_name} #{@cust5.last_name}")
@@ -168,13 +180,6 @@ RSpec.describe 'merchants dashboard' do
     expect(page).to_not have_content("#{@cust7.first_name} #{@cust7.last_name}")
   end
 
-  it 'gives me a link to view the discounts index' do
-    # binding.pry
-    "/merchants/#{@merch1.id}/dashboard"
-
-    click_link("View all discounts")
-    expect(current_path).to eq("/merchants/#{@merch1.id}/discounts")
-  end
 
   # it 'displays repo name' do
   #   visit "/merchants/#{@merch1.id}/dashboard"
