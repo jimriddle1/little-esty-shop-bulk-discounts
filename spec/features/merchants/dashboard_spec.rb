@@ -23,15 +23,6 @@ RSpec.describe 'merchants dashboard' do
   end
 
 
-  it 'gives me a link to view the discounts index' do
-    # binding.pry
-    visit "/merchants/#{@merch1.id}/dashboard"
-    # save_and_open_page
-
-    click_link("View all discounts")
-    expect(current_path).to eq("/merchants/#{@merch1.id}/discounts")
-  end
-
   it 'shows the name of the merchant' do
     visit "/merchants/#{@merch1.id}/dashboard"
 
