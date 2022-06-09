@@ -93,6 +93,18 @@ RSpec.describe 'merchants discounts' do
 
   end
 
+  it 'can show a bulk discount' do
+    # As a merchant
+    # When I visit my bulk discount show page
+    # Then I see the bulk discount's quantity threshold and percentage discount
+
+    visit "/merchants/#{@merch1.id}/discounts/#{@discount1.id}"
+    expect(page).to have_content('Percentage Discount: 20.0%')
+    expect(page).to have_content('Item Threshold: 10')
+
+
+  end
+
   it 'can delete a bulk discount' do
     # As a merchant
     # When I visit my bulk discounts index
@@ -103,7 +115,7 @@ RSpec.describe 'merchants discounts' do
 
     visit "/merchants/#{@merch1.id}/discounts"
     click_link("Delete Discount #{@discount1.id}")
-    
+
     expect(current_path).to eq("/merchants/#{@merch1.id}/discounts")
 
     expect(page).to have_content("View Discount Details: #{@discount2.id}")
