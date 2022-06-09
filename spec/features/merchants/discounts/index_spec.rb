@@ -103,6 +103,8 @@ RSpec.describe 'merchants discounts' do
 
     visit "/merchants/#{@merch1.id}/discounts"
     click_link("Delete Discount #{@discount1.id}")
+    
+    expect(current_path).to eq("/merchants/#{@merch1.id}/discounts")
 
     expect(page).to have_content("View Discount Details: #{@discount2.id}")
     expect(page).to have_content('Percentage Discount: 30.0%')
