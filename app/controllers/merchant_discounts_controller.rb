@@ -3,11 +3,11 @@ class MerchantDiscountsController < ApplicationController
     @merchant = Merchant.find(params[:id])
     @discounts = @merchant.discounts
   end
-  # 
-  # def show
-  #   @merchant = Merchant.find(params[:id])
-  #   @invoice = Invoice.find(params[:invoice_id])
-  # end
+  #
+  def show
+    @merchant = Merchant.find(params[:id])
+    @discount = Discount.find(params[:discount_id])
+  end
   #
   # def update
   #   # require "pry"; binding.pry

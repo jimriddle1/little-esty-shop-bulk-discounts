@@ -1,1 +1,10 @@
-this is some text
+<h1>Merchant Discounts</h1>
+<hr>
+<% @discounts.each do |discount| %>
+  <div id="discount-<%= discount.id %>">
+      <p>View Discount Details: <%= link_to "#{discount.id}", "/merchants/#{@merchant.id}/discounts/#{discount.id}" %></p>
+      <p>Percentage Discount: <%= "#{discount.bulk_discount*100}%" %></p>
+      <p>Item Threshold: <%= "#{discount.item_threshold}" %></p>
+      <hr>
+  </div>
+<% end %>
