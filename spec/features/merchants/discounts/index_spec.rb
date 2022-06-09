@@ -85,12 +85,31 @@ RSpec.describe 'merchants discounts' do
     fill_in 'Item threshold', with: 45
 
     click_button "Submit"
-    # save_and_open_page
     expect(current_path).to eq("/merchants/#{@merch1.id}/discounts")
 
     expect(page).to have_content('Percentage Discount: 50.0%')
     expect(page).to have_content('Item Threshold: 45')
 
 
+  end
+
+  it 'can delete a bulk discount' do
+    # As a merchant
+    # When I visit my bulk discounts index
+    # Then next to each bulk discount I see a link to delete it
+    # When I click this link
+    # Then I am redirected back to the bulk discounts index page
+    # And I no longer see the discount listed
+
+    visit "/merchants/#{@merch1.id}/discounts"
+    click_link("Delete Discount #{@discount1.id}")
+
+    expect(page).to have_content("View Discount Details: #{@discount2.id}")
+    expect(page).to have_content('Percentage Discount: 30.0%')
+    expect(page).to have_content('Item Threshold: 15')
+
+    expect(page).to_not have_content("View Discount Details: #{@discount1.id}")
+    expect(page).to_not have_content('Percentage Discount: 20.0%')
+    expect(page).to_not have_content('Item Threshold: 10')
   end
 end
