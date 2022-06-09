@@ -27,16 +27,21 @@ class MerchantDiscountsController < ApplicationController
     redirect_to "/merchants/#{merchant.id}/discounts"
   end
   #
-  # def update
-  #   # require "pry"; binding.pry
-  #   merch = Merchant.find(params[:id])
-  #   invoice = Invoice.find(params[:invoice_id])
-  #   invoice_item = InvoiceItem.find(params[:invoice_item_id])
-  #   invoice_item.update(status: params[:status])
-  #   redirect_to "/merchants/#{merch.id}/invoices/#{invoice.id}"
-  #
-  #   # require "pry"; binding.pry
-  # end
+  def edit
+    @discount = Discount.find(params[:discount_id])
+  end
+
+  def update
+    @merchant = Merchant.find(params[:id])
+    @discount = Discount.find(params[:discount_id])
+
+    # binding.pry
+
+    @discount.update(bulk_discount: params[:bulk_discount])
+    @discount.update(item_threshold: params[:item_threshold])
+    redirect_to "/merchants/#{@merchant.id}/discounts/#{@discount.id}"
+    
+  end
 
   private
 
