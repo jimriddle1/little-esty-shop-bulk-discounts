@@ -28,5 +28,6 @@ Rails.application.routes.draw do
   patch '/merchants/:id/items/:item_id', to: 'merchant_items#update'
 
   get '/merchants/:id/discounts', to: 'merchant_discounts#index'
+  get '/merchants/:id/discounts/:discount_id', to: 'merchant_discounts#show'
 
 end
