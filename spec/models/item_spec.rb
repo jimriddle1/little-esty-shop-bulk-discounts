@@ -24,6 +24,17 @@ RSpec.describe Item do
             InvoiceItem.create!(item_id: @item2.id, invoice_id: @invoice2.id, quantity: 5, unit_price: 1000, status: 1)
             InvoiceItem.create!(item_id: @item3.id, invoice_id: @invoice1.id, quantity: 5, unit_price: 1000, status: 1)
             InvoiceItem.create!(item_id: @item4.id, invoice_id: @invoice2.id, quantity: 5, unit_price: 1000, status: 2)
+
+        end
+
+        describe "#current_discount" do
+            it "tests example 1" do
+              @discount1 = @merch1.discounts.create!(bulk_discount: 0.2, item_threshold: 555)
+              expect(@item1.current_discount).to eq(nil)
+              expect(@item2.current_discount).to eq(nil)
+              expect(@item3.current_discount).to eq(nil)
+              expect(@item4.current_discount).to eq(nil)
+            end
         end
 
         describe "#find_invoice_id" do

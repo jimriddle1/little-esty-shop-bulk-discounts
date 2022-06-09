@@ -13,7 +13,6 @@ RSpec.describe 'Merchant Invoice Show Page' do
             @invoice1 = @customer1.invoices.create!(status: 0)
             @invoice2 = @customer1.invoices.create!(status: 0)
             InvoiceItem.create!(item_id: @item1.id, invoice_id: @invoice1.id, quantity: 5, unit_price: 1000, status: 0)
-            # InvoiceItem.create!(item_id: @item1.id, invoice_id: @invoice2.id, quantity: 5, unit_price: 2000, status: 0)
             InvoiceItem.create!(item_id: @item2.id, invoice_id: @invoice1.id, quantity: 10, unit_price: 1300, status: 1)
             InvoiceItem.create!(item_id: @item3.id, invoice_id: @invoice1.id, quantity: 20, unit_price: 2000, status: 1)
             InvoiceItem.create!(item_id: @item4.id, invoice_id: @invoice1.id, quantity: 5, unit_price: 1000, status: 2)
