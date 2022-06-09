@@ -34,13 +34,11 @@ class MerchantDiscountsController < ApplicationController
   def update
     @merchant = Merchant.find(params[:id])
     @discount = Discount.find(params[:discount_id])
-
-    # binding.pry
-
-    @discount.update(bulk_discount: params[:bulk_discount])
-    @discount.update(item_threshold: params[:item_threshold])
-    redirect_to "/merchants/#{@merchant.id}/discounts/#{@discount.id}"
     
+    @discount.update(discount_params)
+
+    redirect_to "/merchants/#{@merchant.id}/discounts/#{@discount.id}"
+
   end
 
   private
