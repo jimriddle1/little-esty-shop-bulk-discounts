@@ -7,6 +7,13 @@
         <p>Quantity: <%= invoice_item.quantity %></p>
         <p>Unit Price: <%= invoice_item.unit_price %></p>
         <p>Status: <%= invoice_item.status %> </p>
+        <h3>
+          <% if invoice_item.current_discount == nil %>
+            <p>No Discount Applied</p>
+          <% else %>
+            <p><%= link_to "Discount for #{invoice_item.item.name}", "/merchants/#{@merchant.id}/discounts/#{invoice_item.current_discount.id}" %></p>
+          <% end %>
+        </h3>
         <%= form_with url: "/merchants/#{@merchant.id}/invoices/#{@invoice.id}?invoice_item_id=#{invoice_item.id}", method: :patch, local: true do |f| %>
           <%= f.label "New Status" %>
           <%= f.select :status, ["pending", "packaged", "shipped"], selected: invoice_item.status %>
