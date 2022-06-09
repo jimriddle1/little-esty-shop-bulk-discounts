@@ -5,6 +5,7 @@
       <p>View Discount Details: <%= link_to "#{discount.id}", "/merchants/#{@merchant.id}/discounts/#{discount.id}" %></p>
       <p>Percentage Discount: <%= "#{discount.bulk_discount*100}%" %></p>
       <p>Item Threshold: <%= "#{discount.item_threshold}" %></p>
+      <p><%= link_to "Delete Discount #{discount.id}", "/merchants/#{@merchant.id}/discounts/#{discount.id}", method: :delete %></p>
       <hr>
   </div>
 <% end %>
