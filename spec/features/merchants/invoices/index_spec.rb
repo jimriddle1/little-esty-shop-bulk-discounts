@@ -3,21 +3,21 @@ require 'rails_helper'
 RSpec.describe 'merchant invoices page', type: :feature do
   before :each do
     @merch1 = Merchant.create!(name: 'Floopy Fopperations')
+    @merch2 = Merchant.create!(name: 'Beauty Products 101')
+    @customer1 = Customer.create!(first_name: 'Joe', last_name: 'Bob')
     @item1 = @merch1.items.create!(name: 'Floopy Original', description: 'the best', unit_price: 450)
     @item2 = @merch1.items.create!(name: 'Floopy Updated', description: 'the better', unit_price: 950)
     @item3 = @merch1.items.create!(name: 'Floopy Retro', description: 'the OG', unit_price: 550)
-
-    @merch2 = Merchant.create!(name: 'Goopy Gopperations')
-    @item4 = @merch2.items.create!(name: 'Goopy Original', description: 'the bester', unit_price: 1450)
-    @item5 = @merch2.items.create!(name: 'Goopy Updated', description: 'the even better', unit_price: 1950)
-
-    @cust1 = Customer.create!(first_name: "Mark", last_name: "Ruffalo")
-
-    @inv1 = @cust1.invoices.create!(status: "in progress")
-    @inv2 = @cust1.invoices.create!(status: "completed")
-
-    InvoiceItem.create!(item_id: "#{@item1.id}", invoice_id: "#{@inv1.id}")
-    InvoiceItem.create!(item_id: "#{@item4.id}", invoice_id: "#{@inv2.id}")
+    @item4 = @merch2.items.create!(name: 'Floopy Geo', description: 'the OG', unit_price: 550)
+    @invoice1 = @customer1.invoices.create!(status: 0)
+    @invoice2 = @customer1.invoices.create!(status: 0)
+    InvoiceItem.create!(item_id: @item1.id, invoice_id: @invoice1.id, quantity: 5, unit_price: 1000, status: 0)
+    # InvoiceItem.create!(item_id: @item2.id, invoice_id: @invoice1.id, quantity: 10, unit_price: 1300, status: 1)
+    # InvoiceItem.create!(item_id: @item3.id, invoice_id: @invoice1.id, quantity: 20, unit_price: 2000, status: 1)
+    # InvoiceItem.create!(item_id: @item4.id, invoice_id: @invoice1.id, quantity: 5, unit_price: 1000, status: 2)
+    # InvoiceItem.create!(item_id: @item4.id, invoice_id: @invoice2.id, quantity: 5, unit_price: 1000, status: 2)
+    @discount1 = @merch1.discounts.create!(bulk_discount: 0.2, item_threshold: 10)
+    @discount2 = @merch1.discounts.create!(bulk_discount: 0.3, item_threshold: 20)
   end
 
   it 'can see all the invoices(and id) that have at least one of my merchants items' do
@@ -28,9 +28,9 @@ RSpec.describe 'merchant invoices page', type: :feature do
 
   visit "/merchants/#{@merch1.id}/invoices"
 
-  expect(page).to have_content("Invoice #{@inv1.id}")
-  expect(page).to have_content("Status: #{@inv1.status}")
-  expect(page).to_not have_content("Invoice #{@inv2.id}")
+  expect(page).to have_content("Invoice #{@invoice1.id}")
+  expect(page).to have_content("Status: #{@invoice1.status}")
+  expect(page).to_not have_content("Invoice #{@invoice2.id}")
 
 
   end
@@ -38,9 +38,11 @@ RSpec.describe 'merchant invoices page', type: :feature do
   it 'has a link on each id to the merchant invoice show page' do
   # And each id links to the merchant invoice show page
     visit "/merchants/#{@merch1.id}/invoices"
+    # binding.pry
 
-    click_link "#{@inv1.id}"
+    # save_and_open_page
+    click_link "#{@invoice1.id}"
 
-    expect(current_path).to eq("/merchants/#{@merch1.id}/invoices/#{@inv1.id}")
+    expect(current_path).to eq("/merchants/#{@merch1.id}/invoices/#{@invoice1.id}")
   end
 end

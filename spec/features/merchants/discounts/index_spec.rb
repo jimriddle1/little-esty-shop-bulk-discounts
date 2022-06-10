@@ -93,6 +93,28 @@ RSpec.describe 'merchants discounts' do
 
   end
 
+  it 'can give me the right error message when I fill in an improper discount' do
+    visit "/merchants/#{@merch1.id}/discounts"
+
+    click_link("Create Discount")
+    expect(current_path).to eq("/merchants/#{@merch1.id}/discounts/new")
+
+    fill_in 'Bulk discount', with: 2.5
+    fill_in 'Item threshold', with: 45
+
+    click_button "Submit"
+    expect(current_path).to eq("/merchants/#{@merch1.id}/discounts/new")
+    expect(page).to have_content('Error: Please put in a valid discount (threshold greater than 0, discount inbetween 0 and 1)')
+
+    fill_in 'Bulk discount', with: 0.5
+    fill_in 'Item threshold', with: 0
+
+    click_button "Submit"
+    expect(current_path).to eq("/merchants/#{@merch1.id}/discounts/new")
+    expect(page).to have_content('Error: Please put in a valid discount (threshold greater than 0, discount inbetween 0 and 1)')
+
+  end
+
   it 'can show a bulk discount' do
     # As a merchant
     # When I visit my bulk discount show page
@@ -156,7 +178,29 @@ RSpec.describe 'merchants discounts' do
     expect(page).to have_content('Percentage Discount: 40.0%')
     expect(page).to have_content('Item Threshold: 30')
 
+  end
 
+  it 'can give me the right error message when I try to update in an improper discount' do
+    visit "/merchants/#{@merch1.id}/discounts/#{@discount1.id}"
+
+
+    click_link "Edit Discount"
+    expect(current_path).to eq("/merchants/#{@merch1.id}/discounts/#{@discount1.id}/edit")
+
+    fill_in :bulk_discount, with: 2.4
+    fill_in :item_threshold, with: 30
+    click_button 'Update Discount'
+    expect(current_path).to eq("/merchants/#{@merch1.id}/discounts/#{@discount1.id}/edit")
+    expect(page).to have_content('Error: Please put in a valid discount (threshold greater than 0, discount inbetween 0 and 1)')
+
+  end
+
+  it 'can give me the next three holidays' do
+    visit "/merchants/#{@merch1.id}/discounts"
+    expect(page).to have_content('Next 3 Holidays are:')
+    expect(page).to have_content('Juneteenth on 2022-06-20')
+    expect(page).to have_content('Independence Day on 2022-07-04')
+    expect(page).to have_content('Labour Day on 2022-09-05')
 
   end
 end

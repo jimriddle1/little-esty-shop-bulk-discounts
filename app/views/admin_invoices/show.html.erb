@@ -20,3 +20,4 @@
 </div>
 <% end %>
 <h3>Total Revenue: <%= @invoice.invoice_revenue.to_s.insert(-3,'.') %></h3>
+<h3>Total Discounted Revenue: <%= (@invoice.discounted_invoice_revenue./100).to_s %></h3>

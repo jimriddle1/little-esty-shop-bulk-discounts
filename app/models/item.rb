@@ -2,6 +2,7 @@ class Item < ApplicationRecord
   belongs_to :merchant
   has_many :invoice_items
   has_many :invoices, through: :invoice_items
+  has_many :discounts, through: :merchant 
 
   enum status: %i[disabled enabled]
 
@@ -25,8 +26,19 @@ class Item < ApplicationRecord
             .order(sales: :desc)
             .first.updated_at
   end
-  
+
   def invoice_time
     invoices.order(created_at: :asc)
   end
+
+
+  def current_discount
+    # binding.pry
+    merchant.discounts
+        .where('item_threshold <= ?', invoice_items.first.quantity)
+        .order(bulk_discount: :desc)
+        .first
+  end
+
+
 end

@@ -16,9 +16,17 @@ class MerchantDiscountsController < ApplicationController
 
   def create
     merchant = Merchant.find(params[:id])
-    merchant.discounts.create!(discount_params)
+    discount = merchant.discounts.new(discount_params)
     # binding.pry
-    redirect_to "/merchants/#{merchant.id}/discounts"
+
+    if discount.save
+      redirect_to "/merchants/#{merchant.id}/discounts"
+    else
+      redirect_to "/merchants/#{merchant.id}/discounts/new"
+      flash[:alert] = "Error: Please put in a valid discount (threshold greater than 0, discount inbetween 0 and 1)"
+    end
+    # binding.pry
+    # redirect_to "/merchants/#{merchant.id}/discounts"
   end
 
   def destroy
@@ -34,10 +42,13 @@ class MerchantDiscountsController < ApplicationController
   def update
     @merchant = Merchant.find(params[:id])
     @discount = Discount.find(params[:discount_id])
-    
-    @discount.update(discount_params)
 
-    redirect_to "/merchants/#{@merchant.id}/discounts/#{@discount.id}"
+    if @discount.update(discount_params)
+      redirect_to "/merchants/#{@merchant.id}/discounts/#{@discount.id}"
+    else
+      redirect_to "/merchants/#{@merchant.id}/discounts/#{@discount.id}/edit"
+      flash[:alert] = "Error: Please put in a valid discount (threshold greater than 0, discount inbetween 0 and 1)"
+    end
 
   end
 
