@@ -1,5 +1,15 @@
 <h1>Merchant Discounts</h1>
 <hr>
+
+<h3>Next 3 Holidays are:</h3>
+
+  <p><%= @holidays.name_1 %> on <%= @holidays.date_1 %></p>
+  <p><%= @holidays.name_2 %> on <%= @holidays.date_2 %></p>
+  <p><%= @holidays.name_3 %> on <%= @holidays.date_3 %></p>
+
+<hr>
+
+
 <% @discounts.each do |discount| %>
   <div id="discount-<%= discount.id %>">
       <p>View Discount Details: <%= link_to "#{discount.id}", "/merchants/#{@merchant.id}/discounts/#{discount.id}" %></p>
