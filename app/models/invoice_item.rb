@@ -2,6 +2,7 @@ class InvoiceItem < ApplicationRecord
   belongs_to :invoice
   belongs_to :item
   has_many :transactions, through: :invoice
+  has_many :discounts, through: :item # need to test this
 
 
   enum status: %w[pending packaged shipped]
