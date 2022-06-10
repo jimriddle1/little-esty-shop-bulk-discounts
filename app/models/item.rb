@@ -2,7 +2,7 @@ class Item < ApplicationRecord
   belongs_to :merchant
   has_many :invoice_items
   has_many :invoices, through: :invoice_items
-  has_many :discounts, through: :merchant # need to test this
+  has_many :discounts, through: :merchant 
 
   enum status: %i[disabled enabled]
 
@@ -40,8 +40,5 @@ class Item < ApplicationRecord
         .first
   end
 
-  def self.current_discount_2
-    binding.pry
-  end
 
 end

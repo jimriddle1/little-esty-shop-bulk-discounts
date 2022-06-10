@@ -5,7 +5,7 @@ class Invoice < ApplicationRecord
   has_many :invoice_items, dependent: :destroy
   has_many :items, through: :invoice_items
   has_many :merchants, through: :items
-  has_many :discounts, through: :merchants # need to test this
+  has_many :discounts, through: :merchants 
 
   enum status: ['in progress', 'cancelled', 'completed']
 
@@ -26,6 +26,7 @@ class Invoice < ApplicationRecord
     x = invoice_items.joins(:item)
                  .where(items: { merchant_id: merchant_id })
     accumulator = 0
+    # binding.pry
     z = x.each do |invoice_item|
       if invoice_item.item.current_discount == nil
         accumulator += (invoice_item.quantity * invoice_item.unit_price)
@@ -59,6 +60,7 @@ class Invoice < ApplicationRecord
   end
 
   def discounted_invoice_revenue
+    # binding.pry
     x = invoice_items.joins(:item)
 
     accumulator = 0
@@ -69,7 +71,6 @@ class Invoice < ApplicationRecord
         accumulator += ((1 - invoice_item.item.current_discount.bulk_discount) * invoice_item.quantity * invoice_item.unit_price)
       end
     end
-    # binding.pry
 
     return accumulator
   end
