@@ -165,10 +165,6 @@ RSpec.describe 'merchants discounts' do
 
     click_link "Edit Discount"
     expect(current_path).to eq("/merchants/#{@merch1.id}/discounts/#{@discount1.id}/edit")
-    # save_and_open_page
-    #
-    # expect(page).to have_content('0.2')
-    # expect(page).to have_content('10')
 
     fill_in :bulk_discount, with: 0.4
     fill_in :item_threshold, with: 30
