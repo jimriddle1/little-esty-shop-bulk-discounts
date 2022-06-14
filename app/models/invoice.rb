@@ -22,9 +22,7 @@ class Invoice < ApplicationRecord
   def total_discounted_revenue(merchant_id)
     invoice_items.joins(:item)
                  .where(items: { merchant_id: merchant_id })
-                 .map do |invoice_item|
-                    invoice_item.price_with_discount
-                  end.sum
+                 .sum { |p| p.price_with_discount }
   end
 
   def self.incomplete
@@ -36,9 +34,7 @@ class Invoice < ApplicationRecord
   end
 
   def discounted_invoice_revenue
-    invoice_items.distinct.map do |invoice_item|
-      invoice_item.price_with_discount
-    end.sum
+    invoice_items.sum { |p| p.price_with_discount }
   end
 
   def invoice_revenue
